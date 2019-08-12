@@ -43,3 +43,9 @@ export const reqGetInform = (place) => ajax(BASE + '/CodingForFaceID_war/getNoti
 
 //获取历史记录
 export const reqHistory = () => ajax(BASE+'/CodingForFaceID_war/detailedLoginInformationServlet')
+
+//获取位置分布接口
+export const reqGetSeat = () => ajax(BASE + '/CodingForFaceID_war/getSeatMap')
+
+//编辑位置接口
+export const reqUpdateSeat = (memberName,seat) => ajax(BASE + '/CodingForFaceID_war/seatArrangementServlet',{memberName,seat},'POST')

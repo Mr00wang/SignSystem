@@ -61,7 +61,7 @@ class Header extends Component{
                 //删除保存的user数据
                 storageUtils.removeUser()
                 memoryUtils.user = {}
-                console.log("header"+memoryUtils.user)
+                //console.log("header"+memoryUtils.user)
                 //跳转到Login
                 message.success('退出成功')
                 this.props.history.replace('/login')
