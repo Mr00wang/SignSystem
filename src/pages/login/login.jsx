@@ -36,7 +36,7 @@ class Login extends Component{
                     //const user = {"username":{username},"password":{password}}
                    //const user = {"_id":"1","username":"admin","password":"admin"}
                     memoryUtils.user = user // 保存在内存中
-                    console.log("login"+memoryUtils.user)
+                    console.log("login"+memoryUtils.user.username)
                     storageUtils.saveUser(user) // 保存到local中
 
                     // 跳转到管理界面 (不需要再回退回到登陆)

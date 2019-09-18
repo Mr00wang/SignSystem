@@ -3,7 +3,7 @@ import {Card,Button,Table,Modal,Icon,message} from "antd";
 import LinkButton from "../../components/link-button";
 import AddForm from "./addform";
 import UpdateForm from "./updateform"
-import {reqUsers, reqDeleteUser, reqAddUser, reqUpdateUser} from "../../api";
+import {reqUsers, reqDeleteUser, reqAddUser, reqUpdateUser, reqLinkPicture} from "../../api";
 /*
 人员管理路由
  */
@@ -12,7 +12,7 @@ export default class User extends Component{
         loading: false, //是否正在获取数据中
         users: [],  //人员分类列表
         showStatus: 0, // 标识添加/更新的确认框是否显示, 0: 都不显示, 1: 显示添加, 2: 显示更新
-    }
+    };
 
     /*
     初始化Table所有列的数组
@@ -26,6 +26,8 @@ export default class User extends Component{
             {
                 title: '房间号',
                 dataIndex: 'place',
+                defaultSortOrder: 'descend',
+                sorter: (a, b) => a.place - b.place,
             },
             {
                 title: '操作',
@@ -39,7 +41,7 @@ export default class User extends Component{
                 )
             },
         ]
-    }
+    };
 
     /*
     异步获取人员列表
@@ -56,7 +58,7 @@ export default class User extends Component{
         }else{
             message.error('获取分类列表失败')
         }
-    }
+    };
 
     /*
     为第一次render()准备数据
@@ -70,7 +72,7 @@ export default class User extends Component{
      */
     componentDidMount() {
         this.getUsers()
-    }
+    };
     /*
   响应点击取消: 隐藏确定框
    */
@@ -81,7 +83,7 @@ export default class User extends Component{
         this.setState({
             showStatus: 0
         })
-    }
+    };
     /*
   显示人员添加的确认框
    */
@@ -89,7 +91,7 @@ export default class User extends Component{
         this.setState({
             showStatus: 1
         })
-    }
+    };
 
     /*
     添加成员请求
@@ -100,7 +102,7 @@ export default class User extends Component{
                 // 隐藏确认框
                 this.setState({
                     showStatus: 0
-                })
+                });
                 //准备数据
                 const {memberName, place} = values
                 //const user = {memberName, place}
@@ -116,7 +118,7 @@ export default class User extends Component{
                 }
             }
         })
-    }
+    };
 
     /*
     修改人员请求
@@ -128,7 +130,7 @@ export default class User extends Component{
                 //1,隐藏确定框
                 this.setState({
                     showStatus: 0
-                })
+                });
                 //准备数据
                 const {memberName, place} = values
                 const index = this.user.index
@@ -143,20 +145,20 @@ export default class User extends Component{
                 }
             }
         })
-    }
+    };
     /*
   显示修改的确认框
    */
     showUpdate = (user) => {
         // 保存分类对象
-        this.user = user
+        this.user = user;
         //console.log(user)
         //console.log(user.memberName)
         // 更新状态
         this.setState({
             showStatus: 2
         })
-    }
+    };
 
     /*
   删除指定用户
@@ -167,31 +169,47 @@ export default class User extends Component{
             title: `确认删除${user.memberName}吗?`,
             onOk: async () => {
                 //const id = user.index
-                const result = await reqDeleteUser(user.memberName)
+                const result = await reqDeleteUser(user.memberName);
                 if(result.error_code===3) {
-                    message.success(result.msg)
-                    this.getUsers()
+                    message.success(result.msg);
+                    this.getUsers();
                 }else{
-                    message.error(result.msg)
+                    message.error(result.msg);
                 }
             }
         })
-    }
+    };
+
+    link = async () => {
+        console.log("1");
+        const result = await reqLinkPicture();
+        console.log("12");
+        console.log(result);
+        if(result.error_code === 42){
+            console.log("123");
+            message.success(result.msg)
+        }
+    };
 
     render() {
         //读取状态
-        const {users,showStatus,loading} = this.state
-
+        const {users,showStatus,loading} = this.state;
         //读取指定的分类
-        const user = this.user || {}
+        const user = this.user || {};
         //console.log(user)
         const title = <Button type="primary" onClick={this.showAdd}>
             <Icon type="plus"/>
             <span>人员添加</span>
-        </Button>
+        </Button>;
+
+        const extra = <Button type="primary" onClick={this.link} >
+            <Icon type='safety-certificate'/>
+            <span>一键管理</span>
+        </Button>;
+
 
         return(
-            <Card title={title} >
+            <Card title={title} extra={extra}>
                 <Table
                     bordered={true}
                     rowKey='index'

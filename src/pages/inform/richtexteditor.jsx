@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-/*
+/**
 用来指定公告编辑的富文本编辑器组件
  */
 import { EditorState, convertToRaw,ContentState } from 'draft-js'
@@ -40,7 +40,7 @@ export default class RichTextEditor extends Component {
 
     }
 
-    /*
+    /**
     输入过程中实时的回调
      */
     onEditorStateChange = (editorState) => {

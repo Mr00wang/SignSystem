@@ -3,8 +3,8 @@
  */
 
 export function formateDate(time) {
-    if(!time) return ''
-    let date = new Date(time)
+    if(!time) return '';
+    let date = new Date(time);
     let months = date.getMonth()+1;
     let days = date.getDate();
     let hours = date.getHours();
@@ -18,4 +18,13 @@ export function formateDate(time) {
     seconds = seconds<10 ? "0"+seconds : seconds;
     return date.getFullYear() + '-' + months + '-' +days
         + ' ' +hours + ':' + minutes + ':' + seconds
+}
+export function formateDate1(time) {
+    if(!time) return '';
+    let date = new Date(time);
+    let months = date.getMonth()+1;
+    let days = date.getDate();
+    months  = months<10  ? "0"+months : months;
+    days  = days <10  ? "0"+days : days;
+    return months + '-' +days;
 }

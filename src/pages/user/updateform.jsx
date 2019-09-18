@@ -12,7 +12,7 @@ class UpdateForm extends Component{
         memberName: PropTypes.string.isRequired,
         place: PropTypes.string.isRequired,
         setForm: PropTypes.func.isRequired
-    }
+    };
 
     componentWillMount () {
         // 将form对象通过setForm()传递父组件

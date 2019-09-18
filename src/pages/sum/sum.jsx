@@ -50,6 +50,8 @@ export default class Sum extends Component{
                 title: '累计时间',
                 dataIndex: 'totalTime',
                 width: 120,
+                defaultSortOrder: 'descend',
+                sorter: (a, b) => a.totalTime - b.totalTime,
             },
         ]
     }

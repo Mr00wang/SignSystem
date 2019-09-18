@@ -53,17 +53,22 @@ export default class Single extends Component{
             {
                 title: '签到时间',
                 dataIndex: 'getIntoTime',
-                width: 150,
+                width: 120,
             },
             {
                 title: '签退时间',
                 dataIndex: 'exitTime',
-                width: 150,
+                width: 120,
+            },
+            {
+                title: '本次时长',
+                dataIndex: 'thisTime',
+                width: 120,
             },
             {
                 title: '累计时长',
                 dataIndex: 'totalTime',
-                width: 150,
+                width: 120,
             },
         ]
 

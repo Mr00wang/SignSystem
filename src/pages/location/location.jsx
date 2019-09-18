@@ -1,9 +1,8 @@
 import React,{Component} from 'react';
-import {BackTop, Card, Col, Icon, message, Modal, Row, Statistic, Table} from "antd";
-import {reqGetSeat, reqOnline, reqUpdateSeat, reqUpdateUser} from "../../api";
+import {BackTop, Card, Col, message, Modal, Row,  Table} from "antd";
+import {reqGetSeat,  reqUpdateSeat, } from "../../api";
 import LinkButton from "../../components/link-button";
 import UpdateForm from "../location/updateform";
-
 const tabListNoTitle = [
     {
         key: '338',
@@ -23,7 +22,7 @@ export default class Location extends Component{
         loading:false,
         users:[],
         showStatus: false, //false不显示，true为显示
-    }
+    };
 
     initColumns = () => {
         this.columns = [
@@ -35,7 +34,10 @@ export default class Location extends Component{
             {
                 title: "位置",
                 dataIndex:  "seat",
-                width: 120
+                width: 120,
+                //sortDirections: ['descend','ascend'],
+                defaultSortOrder: 'descend',
+                sorter: (a, b) => a.seat - b.seat,
             },
             {
                 title: '操作',
@@ -172,6 +174,7 @@ export default class Location extends Component{
                                 <Table
 
                                     bordered={true}
+
                                     loading={loading}
                                     rowKey='index'
                                     dataSource={o.room338}
@@ -183,7 +186,7 @@ export default class Location extends Component{
                             <Modal
                                 title="编辑位置编号"
                                 visible={showStatus===true}
-                                onOk={this.updateUser}
+                                onOk={this.updateSeat}
                                 onCancel={this.handleCancel}
                             >
                                 <UpdateForm

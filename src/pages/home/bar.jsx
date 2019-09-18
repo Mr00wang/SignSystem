@@ -1,20 +1,50 @@
 import React,{Component} from 'react'
 import {Card} from "antd"
 import ReactEcharts from "echarts-for-react"
+import {reqSevenDaySignTime, reqSevenDaySignTimes} from "../../api";
+import {formateDate1} from "../../utils/dateUtils";
+import PropTypes from "prop-types";
 /*
 柱状图路由
  */
 export default class Bar extends Component{
+    static propType = {
+        place: PropTypes.string.isRequired,
+    };
     state = {
-        sales: [5, 20, 36, 10, 10, 20], // 销量的数组
-        stores: [6, 10, 25, 20, 15, 10], // 库存的数组
-    }
+        times: [], // 签到次数
+        time: [], // 签到时长
+        date:formateDate1(Date.now()),
+    };
 
+
+    /**
+     *
+     */
+    getDatas = async () => {
+        //签到次数
+      const result = await reqSevenDaySignTimes(this.props.place);
+      console.log(result.data);
+      //签到时长
+        const result1 = await reqSevenDaySignTime(this.props.place);
+        console.log(result1.data);
+        this.setState({
+            times:result.data,
+            time:result1.data
+        })
+    };
+    /**
+     *
+     */
+    componentDidMount() {
+        this.getDatas();
+    }
 
     /*
     返回柱状图的配置对象
      */
-    getOption = (sales, stores) => {
+    getOption = (times, time) => {
+        const date = formateDate1(Date.now());
         return {
             title: {
                 text: '总体浏览'
@@ -23,7 +53,7 @@ export default class Bar extends Component{
                 trigger: 'axis'
             },
             legend: {
-                data:['签到次数','总签到时间']
+                data:['总签到次数','总签到时间']
             },
             grid: {
                 left: '3%',
@@ -39,30 +69,30 @@ export default class Bar extends Component{
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: ['周一','周二','周三','周四','周五','周六','周日']
+                data: ['9-11','9-12','9-13','9-14','9-15','9-16','9-17']
             },
             yAxis: {
                 type: 'value'
             },
             series: [
                 {
-                    name:'签到次数',
+                    name:'总签到次数',
                     type:'line',
                     stack: '次',
-                    data:[120, 132, 101, 134, 90, 230, 210]
+                    data:this.state.times
                 },
                 {
                     name:'总签到时间',
                     type:'line',
                     stack: '分',
-                    data:[3000, 2500, 4000, 2800, 2500, 3800, 2800]
+                    data:this.state.time
                 },
             ]
         }
-    }
+    };
 
     render() {
-        const {sales, stores} = this.state
+        const {sales, stores} = this.state;
         return (
             <div>
                 <Card title='折线图'>
